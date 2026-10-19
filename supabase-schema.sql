@@ -66,7 +66,7 @@ create table public.payments (
   kind          text not null check (kind in ('join','hearts')),
   hearts        int  not null default 0,
   amount        int  not null check (amount >= 0),
-  depositor_tag text not null,                      -- 전화번호 뒷자리 4개
+  depositor_tag text not null,                      -- 입금자명으로 쓸 4자리 번호 (_new_tag)
   status        text not null default 'pending' check (status in ('pending','paid','cancelled')),
   method        text check (method in ('transfer','cash','free')),
   find_attempts int  not null default 0,            -- '입금자명으로 찾기' 시도 횟수
@@ -210,6 +210,18 @@ end $$;
 create or replace function public._norm_name(n text)
 returns text language sql immutable as $$ select regexp_replace(coalesce(n, ''), '\s', '', 'g') $$;
 
+-- 입금자명으로 쓸 4자리 번호: 지금 대기 중인 결제끼리는 절대 겹치지 않게 뽑는다
+create or replace function public._new_tag()
+returns text language plpgsql volatile security definer set search_path = public as $$
+declare t text;
+begin
+  loop
+    t := (1000 + floor(random() * 9000))::int::text;
+    exit when not exists (select 1 from payments where status = 'pending' and depositor_tag = t);
+  end loop;
+  return t;
+end $$;
+
 -- ── 3. 사용자 함수 ───────────────────────────────────────────
 create or replace function public._me()
 returns public.profiles language plpgsql stable security definer set search_path = public as $$
@@ -269,7 +281,7 @@ begin
 
   if exists_ is null then
     insert into payments (user_id, kind, amount, depositor_tag)
-    select uid, 'join', s.join_fee, phone_last4 from profiles where id = uid;
+    select uid, 'join', s.join_fee, _new_tag() from profiles where id = uid;
   end if;
   return my_state();
 end $$;
@@ -287,7 +299,7 @@ begin
     'nickname', me.nickname, 'school', me.school, 'photos', to_jsonb(me.photos),
     'hearts', me.hearts, 'paused', me.paused, 'other_school_only', me.other_school_only,
     'contact_type', me.contact_type, 'contact', me.contact,
-    'depositor_tag', me.phone_last4,
+    'depositor_tag', pay.depositor_tag,
     'pending_payment', case when pay.id is null then null else jsonb_build_object(
         'id', pay.id, 'kind', pay.kind, 'amount', pay.amount, 'hearts', pay.hearts,
         'created_at', pay.created_at, 'find_attempts_left', greatest(0, 5 - pay.find_attempts)) end,
@@ -439,7 +451,7 @@ begin
   select * into s from settings;
   update payments set status = 'cancelled' where user_id = me.id and status = 'pending' and kind = 'hearts';
   insert into payments (user_id, kind, hearts, amount, depositor_tag)
-  values (me.id, 'hearts', n, n * s.heart_price, me.phone_last4);
+  values (me.id, 'hearts', n, n * s.heart_price, _new_tag());
   return my_state();
 end $$;
 
@@ -614,7 +626,7 @@ begin
   if n < 1 or n > 50 then raise exception 'bad_count'; end if;
   update payments set status = 'cancelled' where payments.user_id = admin_grant_hearts.user_id and status = 'pending' and kind = 'hearts';
   insert into payments (user_id, kind, hearts, amount, depositor_tag)
-  select id, 'hearts', n, amount, phone_last4 from profiles where id = admin_grant_hearts.user_id
+  select id, 'hearts', n, amount, _new_tag() from profiles where id = admin_grant_hearts.user_id
   returning id into pid;
   if pid is null then raise exception 'no_user'; end if;
   perform _apply_payment(pid, aid, case when amount = 0 then 'free' else 'cash' end);

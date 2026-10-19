@@ -4,7 +4,7 @@ export type ParsedDeposit = { name: string; amount: number };
 
 const AMOUNT_AFTER_IN = /입금\s*[:：]?\s*([0-9]{1,3}(?:,[0-9]{3})+|[0-9]+)\s*원?/;
 const AMOUNT_WON = /([0-9]{1,3}(?:,[0-9]{3})+|[0-9]+)\s*원/;
-const NAME_WITH_TAG = /([가-힣A-Za-z]{1,10})\s?([0-9]{4})(?![0-9])/; // 이름 + 뒷자리 4개
+const NAME_WITH_TAG = /([가-힣A-Za-z]{0,10})\s?(?<![0-9])([0-9]{4})(?![0-9])/; // (은행 약칭·이름) + 입금 번호 4자리
 
 export function parseDeposit(text: string): ParsedDeposit | null {
   if (!/입금|보냈|송금/.test(text)) return null;          // 출금·잔액 알림은 무시

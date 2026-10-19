@@ -26,7 +26,7 @@ function Pending() {
 
   if (!me) return <Loading />;
   const pay = me.pending_payment;
-  if (help) return <Help amount={pay?.amount ?? 2000} tag={me.depositor_tag} left={pay?.find_attempts_left ?? 0} onDone={() => router.replace('/browse')} />;
+  if (help) return <Help amount={pay?.amount ?? 2000} tag={me.depositor_tag ?? ""} left={pay?.find_attempts_left ?? 0} onDone={() => router.replace('/browse')} />;
 
   return (
     <Screen bg={C.bg}>
@@ -58,7 +58,7 @@ function Pending() {
       </Card>
 
       <Label>계좌로 보내기</Label>
-      <Account amount={pay?.amount ?? 2000} tag={me.depositor_tag} />
+      <Account amount={pay?.amount ?? 2000} tag={me.depositor_tag ?? ""} />
 
       <Link href="/pending?help=1" style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: 44, marginTop: 18, fontSize: 15, color: C.sub, textUnderlineOffset: 3 }}>입금했는데 5분 넘게 그대로예요</Link>
       <FootBar style={{ background: 'transparent', backdropFilter: 'none', WebkitBackdropFilter: 'none' }}>
@@ -98,7 +98,7 @@ function Help({ amount, tag, left, onDone }: { amount: number; tag: string; left
       <Card>
         <div style={{ padding: '14px 14px 14px 0', display: 'flex', gap: 12, borderBottom: C.sep }}><Tile icon="pen" bg={TILE.orange} />
           <div style={{ flex: 1 }}><div style={{ fontSize: 17, fontWeight: 600 }}>입금자명이 달라요</div>
-            <div style={{ marginTop: 3, fontSize: 14, lineHeight: 1.45, color: C.sub }}>이름 뒤에 전화번호 뒷자리 <b className="tnum" style={{ color: C.ink }}>{tag}</b>를 붙여야 자동으로 찾아요.</div></div></div>
+            <div style={{ marginTop: 3, fontSize: 14, lineHeight: 1.45, color: C.sub }}>입금자명(받는 분에게 표시)을 <b className="tnum" style={{ color: C.ink }}>{tag}</b>로 바꿔서 보내야 자동으로 찾아요.</div></div></div>
         <div style={{ padding: '14px 14px 14px 0', display: 'flex', gap: 12 }}><Tile icon="won" bg={TILE.orange} />
           <div style={{ flex: 1 }}><div style={{ fontSize: 17, fontWeight: 600 }}>금액이 달라요</div>
             <div style={{ marginTop: 3, fontSize: 14, lineHeight: 1.45, color: C.sub }}>보낼 금액은 <b style={{ color: C.ink }}>{amount.toLocaleString()}원</b>이에요. 더 보냈다면 부스에서 돌려드려요.</div></div></div>

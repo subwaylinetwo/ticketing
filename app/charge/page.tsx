@@ -73,7 +73,7 @@ export default function Charge() {
 
       {pending ? <>
         <Label style={{ marginTop: 24 }}>하트 {pending.hearts}개 · 입금을 기다리는 중</Label>
-        <Account amount={pending.amount} tag={me.depositor_tag} />
+        <Account amount={pending.amount} tag={me.depositor_tag ?? ""} />
         <Note>부스에서 현금으로 내도 돼요 · {BOOTH.location}</Note>
         <div style={{ margin: '28px 0 0', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, fontSize: 15, color: C.ink2 }}><Spinner size={16} />확인되면 바로 충전돼요</div>
         <FootBar><InkButton onClick={cancel} busy={busy} style={{ background: '#FFFFFF', color: C.ink, boxShadow: '0 0 0 0.5px rgba(0,0,0,0.08)' }}>다른 개수로 바꾸기</InkButton></FootBar>
@@ -87,7 +87,7 @@ export default function Charge() {
               <span className="tnum" style={{ fontSize: 13, color: C.sub }}>{(n * HEART_PRICE).toLocaleString()}원</span>
             </button>))}
         </div>
-        <Note>신청하면 입금 계좌가 나와요. 입금자명에 전화번호 뒷자리 <b className="tnum">{me.depositor_tag}</b>를 꼭 붙여 주세요.</Note>
+        <Note>신청하면 입금 계좌와 입금자명으로 쓸 번호 4자리가 나와요.</Note>
         <ErrorText>{err}</ErrorText>
         <FootBar><OrangeButton onClick={request} busy={busy}>하트 {pick}개 충전하기, {(pick * HEART_PRICE).toLocaleString()}원</OrangeButton></FootBar>
       </>}

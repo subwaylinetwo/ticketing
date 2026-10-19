@@ -11,7 +11,7 @@ export type MyState =
       hidden_reason: string | null;
       nickname: string; school: School; photos: string[];
       hearts: number; paused: boolean; other_school_only: boolean;
-      contact_type: ContactType; contact: string; depositor_tag: string;
+      contact_type: ContactType; contact: string; depositor_tag: string | null;
       pending_payment: null | {
         id: number; kind: 'join' | 'hearts'; amount: number; hearts: number;
         created_at: string; find_attempts_left: number;
