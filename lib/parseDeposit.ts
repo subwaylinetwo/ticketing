@@ -17,7 +17,7 @@ export function parseDeposit(text: string): ParsedDeposit | null {
   if (!Number.isFinite(amount) || amount <= 0) return null;
 
   // 금액 부분을 지우고 남은 데서 이름 찾기 (계좌번호 끝 4자리를 이름으로 오인하지 않도록 ** 들어간 토큰 제거)
-  const rest = body.replace(m[0], ' ').replace(/\S*\*\S*/g, ' ').replace(/\[[^\]]*\]/g, ' ')
+  const rest = body.replace(m[0], ' ').replace(/\S*\*\S*/g, ' ').replace(/\[[^\]]*\]/g, ' ').replace(/\S*은행\s*\(\d+\)/g, ' ')
                    .replace(/[0-9]{1,2}\/[0-9]{1,2}|[0-9]{1,2}:[0-9]{2}/g, ' ');
   const tagged = rest.match(NAME_WITH_TAG);
   if (tagged) return { name: tagged[1] + tagged[2], amount };
