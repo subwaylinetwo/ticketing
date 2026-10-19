@@ -7,6 +7,7 @@ const AMOUNT_WON = /([0-9]{1,3}(?:,[0-9]{3})+|[0-9]+)\s*원/;
 const NAME_WITH_TAG = /([가-힣A-Za-z]{0,10})\s?(?<![0-9])([0-9]{4})(?![0-9])/; // (은행 약칭·이름) + 입금 번호 4자리
 
 export function parseDeposit(text: string): ParsedDeposit | null {
+  text = text.normalize('NFKC');                              // 전각 숫자·공백(３８０６, 　) → 일반 문자
   if (!/입금|보냈|송금/.test(text)) return null;          // 출금·잔액 알림은 무시
   if (/출금|이체출금|결제/.test(text) && !/입금/.test(text)) return null;
 

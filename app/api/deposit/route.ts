@@ -28,7 +28,8 @@ export async function POST(req: Request) {
   const rawBody = await req.text().catch(() => '');
   let text = rawBody;
   try { const j = JSON.parse(rawBody); if (typeof j?.text === 'string') text = j.text; } catch { /* 원문 그대로 */ }
-  text = text.replace(/\s+/g, ' ').trim().slice(0, 500);
+  // 은행 문자는 숫자를 전각(３８０６)으로 보내기도 해서 NFKC로 일반 문자로 바꿈
+  text = text.normalize('NFKC').replace(/\s+/g, ' ').trim().slice(0, 500);
   if (!text) return NextResponse.json({ error: 'no_text' }, { status: 400 });
 
   const parsed = parseDeposit(text);
