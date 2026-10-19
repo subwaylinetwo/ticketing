@@ -1,5 +1,6 @@
 // MacroDroid → POST /api/deposit
-// 헤더 x-deposit-secret: DEPOSIT_SECRET, 본문 JSON { "text": "[알림 원문]" }
+// 헤더 x-deposit-secret: DEPOSIT_SECRET
+// 본문: 알림 원문 그대로(text/plain) 또는 JSON { "text": "[알림 원문]" }
 import { NextResponse } from 'next/server';
 import { timingSafeEqual } from 'node:crypto';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
@@ -17,8 +18,11 @@ export async function POST(req: Request) {
   if (!okSecret(req.headers.get('x-deposit-secret'))) {
     return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
   }
-  const body = await req.json().catch(() => null);
-  const text = typeof body?.text === 'string' ? body.text.trim().slice(0, 500) : '';
+  // MacroDroid에서 JSON을 직접 만들면 알림 속 따옴표·줄바꿈 때문에 깨지기 쉬워서 원문 그대로도 받음
+  const rawBody = await req.text().catch(() => '');
+  let text = rawBody;
+  try { const j = JSON.parse(rawBody); if (typeof j?.text === 'string') text = j.text; } catch { /* 원문 그대로 */ }
+  text = text.replace(/\s+/g, ' ').trim().slice(0, 500);
   if (!text) return NextResponse.json({ error: 'no_text' }, { status: 400 });
 
   const parsed = parseDeposit(text);
