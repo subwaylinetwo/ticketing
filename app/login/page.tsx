@@ -7,7 +7,7 @@ import { homeFor } from '@/lib/useMe';
 import { schoolOf } from '@/lib/school';
 import { C, Card, ErrorText, Icon, InkButton, FootBar, Label, Note, Row, Screen, SchoolLogo, Tile, TILE, Title, TopBar } from '@/components/ui';
 
-const LEN = 8;          // Supabase 이메일 OTP 길이 (Authentication > Email > OTP Length 와 같아야 함)
+const LEN = 6;          // Supabase 이메일 OTP 길이 (Authentication > Email > OTP Length 와 같아야 함)
 const RESEND = 60;      // 다시 받기까지 초
 
 export default function Login() {
@@ -59,7 +59,8 @@ export default function Login() {
       setBusy(false);
       const n = tries + 1;
       setTries(n); setShakeKey((k) => k + 1); setCode('');
-      setErr(/expired/i.test(error.message) ? '코드 유효 시간이 지났어요. 새 코드를 받아 주세요.' : `코드가 맞지 않아요.${n < 3 ? ` ${3 - n}번 더 틀리면 새 코드를 받아야 해요.` : ' 새 코드를 받아 주세요.'}`);
+      // Supabase는 틀린 코드와 만료된 코드를 같은 에러(otp_expired)로 돌려줌 → 구분하지 않고 안내
+      setErr(`코드가 맞지 않거나 만료됐어요. 메일 제목에 있는 가장 최근 코드를 확인해 주세요.${n < 3 ? '' : ' 새 코드를 받아 주세요.'}`);
       return;
     }
     const st = await api.myState().catch(() => null);
@@ -150,7 +151,7 @@ export default function Login() {
 
       <Label>메일이 안 오나요?</Label>
       <Card>
-        <Row><Tile icon="mail" bg={TILE.grey} /><span style={{ flex: 1, fontSize: 16 }}>스팸함·프로모션함을 확인해 주세요</span></Row>
+        <Row><Tile icon="mail" bg={TILE.grey} /><span style={{ flex: 1, fontSize: 16, lineHeight: 1.4 }}>스팸함·프로모션함을 확인해 주세요<br /><span style={{ fontSize: 14, color: C.sub }}>코드는 메일 제목에도 있어요</span></span></Row>
         <Row onClick={() => { setStep('email'); setErr(''); }}><Tile icon="pen" bg={TILE.grey} />
           <span style={{ flex: 1, fontSize: 16, lineHeight: 1.4 }}>메일 주소 고치기<br /><span style={{ fontSize: 14, color: C.sub }}>{email.trim()}</span></span>
           <Icon name="chev" size={16} color={C.sub} stroke={2.2} /></Row>
