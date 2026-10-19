@@ -8,9 +8,15 @@ import { parseDeposit } from '@/lib/parseDeposit';
 
 export const runtime = 'nodejs';
 
-function okSecret(got: string | null) {
-  const want = process.env.DEPOSIT_SECRET ?? '';
-  if (!got || !want || got.length !== want.length) return false;
+function okSecret(raw: string | null) {
+  // 복사·붙여넣기 중 붙는 앞뒤 공백·줄바꿈은 무시
+  const got = (raw ?? '').trim();
+  const want = (process.env.DEPOSIT_SECRET ?? '').trim();
+  if (!got || !want || got.length !== want.length) {
+    // 값은 남기지 않고 길이만 남김 (설정 실수 찾기용)
+    console.warn(`deposit secret mismatch: got ${got.length} chars, want ${want.length} chars`);
+    return false;
+  }
   return timingSafeEqual(Buffer.from(got), Buffer.from(want));
 }
 
