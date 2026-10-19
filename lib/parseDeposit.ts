@@ -23,6 +23,7 @@ export function parseDeposit(text: string): ParsedDeposit | null {
   if (tagged) return { name: tagged[1] + tagged[2], amount };
 
   const plain = rest.replace(/입금|님이|님|보냈어요|보냈습니다|원|에게|으로|이체|송금/g, ' ')
-                    .match(/[가-힣]{2,10}/);
-  return plain ? { name: plain[0], amount } : { name: '', amount };
+                    .match(/[가-힣]{2,10}/g);
+  // "토뱅 이호선"처럼 보낸 은행 약칭이 앞에 오므로 마지막 한글 덩어리를 이름으로 본다
+  return plain ? { name: plain[plain.length - 1], amount } : { name: '', amount };
 }
