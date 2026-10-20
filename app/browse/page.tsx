@@ -191,8 +191,9 @@ export default function Browse() {
               background: BOKEH, boxShadow: 'inset 0 1px 0 rgba(255,255,255,0.08)', ...(W ? cardMask(W) : {}) }}>
             {ph && urls[ph] && <img src={urls[ph]} alt={`${card.nickname} 님 프로필 사진`} draggable={false}
               style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: '50% 28%', pointerEvents: 'none' }} />}
-            <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 120, background: 'linear-gradient(to bottom, rgba(0,0,0,0.38) 0%, rgba(0,0,0,0) 100%)' }} />
-            <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 220, background: 'linear-gradient(to bottom, rgba(28,28,30,0) 0%, rgba(28,28,30,0.72) 55%, #1C1C1E 100%)' }} />
+            <div style={{ position: 'absolute', left: 0, right: 0, top: 0, height: 80, background: 'linear-gradient(to bottom, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0) 100%)' }} />
+            {/* 사진은 최대한 보이게: 글씨 뒤만 살짝 어둡게 */}
+            <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 150, background: 'linear-gradient(to bottom, rgba(20,20,22,0) 0%, rgba(20,20,22,0.28) 45%, rgba(20,20,22,0.6) 100%)' }} />
             {card.photos.length > 1 && <div style={{ position: 'absolute', top: 10, left: 12, right: 12, display: 'flex', gap: 4 }}>
               {card.photos.map((_, i) => <span key={i} style={{ flex: 1, height: 3, borderRadius: 2, background: i === photo ? '#FFFFFF' : 'rgba(255,255,255,0.35)' }} />)}</div>}
             <div style={{ position: 'absolute', top: 24, left: 12, display: 'flex', gap: 6 }}>
@@ -202,7 +203,7 @@ export default function Browse() {
             <Link href={`/report/${card.id}?name=${encodeURIComponent(card.nickname)}`} aria-label="신고하기"
               style={{ position: 'absolute', top: 18, right: 10, width: 44, height: 44, borderRadius: 22, ...GLASS_BG, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               <Icon name="more" size={20} color="#FFFFFF" /></Link>
-            <div style={{ position: 'absolute', left: 20, right: 20, bottom: 16, color: '#FFFFFF' }}>
+            <div style={{ position: 'absolute', left: 20, right: 20, bottom: 16, color: '#FFFFFF', textShadow: '0 1px 2px rgba(0,0,0,0.45), 0 2px 12px rgba(0,0,0,0.35)' }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 10 }}>
                 <div style={{ fontSize: 30, fontWeight: 700, letterSpacing: '-0.025em', lineHeight: 1.15, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{card.nickname}</div>
                 {card.common > 0 && <span style={{ height: 28, padding: '0 10px 0 8px', borderRadius: 14, background: C.orange, display: 'flex', alignItems: 'center', gap: 4, fontSize: 13, fontWeight: 700, whiteSpace: 'nowrap', flexShrink: 0 }}>
@@ -214,7 +215,7 @@ export default function Browse() {
                   return <span key={tg} style={{ height: 28, padding: '0 11px', borderRadius: 14, display: 'flex', alignItems: 'center', fontSize: 13, fontWeight: 600, whiteSpace: 'nowrap',
                     WebkitBackdropFilter: 'blur(16px)', backdropFilter: 'blur(16px)',
                     ...(m ? { background: 'rgba(242,85,27,0.32)', boxShadow: 'inset 0 0 0 1px rgba(255,138,86,0.85)', color: '#FFFFFF' }
-                          : { background: 'rgba(255,255,255,0.16)', boxShadow: 'inset 0 0 0 0.5px rgba(255,255,255,0.22)', color: 'rgba(255,255,255,0.92)' }) }}>{tg}</span>; })}
+                          : { background: 'rgba(20,20,22,0.28)', boxShadow: 'inset 0 0 0 0.5px rgba(255,255,255,0.28)', color: '#FFFFFF' }) }}>{tg}</span>; })}
               </div>}
             </div>
           </div>
@@ -311,7 +312,7 @@ function Empty({ passed, active, onReset }: { passed: number; active: number | n
 
 const ROUND: React.CSSProperties = { width: 44, height: 44, borderRadius: 22, background: '#FFFFFF', boxShadow: '0 0 0 0.5px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.08)',
   display: 'flex', alignItems: 'center', justifyContent: 'center', color: C.ink };
-const GLASS_BG: React.CSSProperties = { background: 'rgba(255,255,255,0.16)', boxShadow: 'inset 0 0 0 0.5px rgba(255,255,255,0.22)', WebkitBackdropFilter: 'blur(20px)', backdropFilter: 'blur(20px)' };
+const GLASS_BG: React.CSSProperties = { background: 'rgba(20,20,22,0.28)', boxShadow: 'inset 0 0 0 0.5px rgba(255,255,255,0.28)', WebkitBackdropFilter: 'blur(20px)', backdropFilter: 'blur(20px)' };
 const GLASS: React.CSSProperties = { ...GLASS_BG, height: 32, borderRadius: 16, display: 'flex', alignItems: 'center', color: '#FFFFFF', fontSize: 14, fontWeight: 600 };
 const STUB_L: React.CSSProperties = { fontSize: 12, fontWeight: 600, color: '#AEAEB2' };
 const STUB_V: React.CSSProperties = { marginTop: 2, fontSize: 20, fontWeight: 700 };
