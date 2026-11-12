@@ -13,12 +13,14 @@ export type Order = {
 export type Public = { menu: MenuItem[]; open: boolean; discount_school: string | null; discount_amount: number; waiting: number };
 
 export const SCHOOLS = ['GIST', 'KAIST', 'POSTECH', 'UNIST', 'DGIST'] as const;
-export const TASTE: Record<Taste, { name: string; sub: string }> = {
-  mild:  { name: '어흐맛',     sub: '순한맛' },
-  spicy: { name: '어흐어흐맛', sub: '매운맛 · 청양' },
+// 현수막 메뉴판과 같은 이름
+export const TASTE: Record<Taste, { name: string; sub: string; short: string }> = {
+  mild:  { name: '어흐~동',     sub: '일반맛', short: '일반' },
+  spicy: { name: '어흐어흐~동', sub: '매운맛', short: '매운' },
 };
+export const INSTA = 'uh_heu_dong';
 export const won = (n: number) => `${n.toLocaleString('ko-KR')}원`;
-export const lineName = (l: Pick<Line, 'name' | 'taste'>) => l.taste ? `${l.name} · ${TASTE[l.taste].name}` : l.name;
+export const lineName = (l: Pick<Line, 'name' | 'taste'>) => l.taste ? `${TASTE[l.taste].name} (${TASTE[l.taste].sub})` : l.name.replace('어묵', '꼬치어묵');
 
 const MESSAGES: Record<string, string> = {
   closed: '지금은 주문을 받지 않아요. 부스에 물어봐 주세요.',

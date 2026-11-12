@@ -1,16 +1,20 @@
 /* 어흐동 — 한지 바탕 · 홍색 낙관 · 먹색 글씨 */
 .ef {
-  --paper: #F5EEDF; --paper2: #ECE2CE; --card: #FFFBF3; --hong: #A4161A; --hong2: #7C0E11; --hongSoft: #F6DCD3;
-  --ink: #23170F; --ink2: #5E4B3D; --ink3: #8C7A6A; --gold: #B48736; --line: rgba(92, 52, 24, .14); --ok: #2F7D4F;
-  --serif: 'Song Myung', 'Nanum Myeongjo', serif;
+  --paper: #EBE7E3; --paper2: #DFD9D3; --card: #FBFAF6; --hong: #A24027; --hong2: #82301C; --hongSoft: #F1DED6;
+  --ink: #2A211C; --ink2: #5F534B; --ink3: #8E837B; --frame: #9A8B80; --line: rgba(70, 50, 40, .14); --ok: #3C7A55;
+  --serif: 'Jua', 'Pretendard', sans-serif;
   position: relative; max-width: 480px; margin: 0 auto; min-height: 100dvh; color: var(--ink);
   background:
-    radial-gradient(120% 50% at 50% -10%, rgba(164,22,26,.07), transparent 60%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .3 0 0 0 0 .15 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),
+    radial-gradient(60% 30% at 70% 8%, rgba(255,255,255,.55), transparent 70%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .32 0 0 0 0 .3 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),
     var(--paper);
   overflow-x: hidden;
 }
-.ef-body { background: #E9DFCB; }
+.ef-body { background: #DCD6CF; }
+.ef .frame { position: relative; background: rgba(251,250,246,.92); border: 1.5px solid var(--frame); border-radius: 4px; padding: 30px 18px 18px;
+  box-shadow: inset 0 0 0 5px rgba(251,250,246,.92), inset 0 0 0 6px var(--frame), 0 8px 20px -16px rgba(40,30,20,.5); }
+.ef .ribbon { position: absolute; top: -15px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: var(--hong); color: #FFF6EE;
+  font-family: var(--serif); font-size: 18px; line-height: 1; padding: 7px 18px 6px; box-shadow: inset 3px 0 0 -1px rgba(255,246,238,.35), inset -3px 0 0 -1px rgba(255,246,238,.35); }
 .ef * { box-sizing: border-box; }
 .ef button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
 .ef button:disabled { opacity: .4; cursor: default; }
@@ -31,7 +35,7 @@
 .ef .btn { height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; gap: 8px;
   font-size: 17px; font-weight: 700; transition: transform .12s ease-out, background .15s; width: 100%; }
 .ef .btn:active:not(:disabled) { transform: scale(.97); }
-.ef .btn-hong { background: var(--hong); color: #FFF6EC; box-shadow: 0 10px 22px -12px rgba(124,14,17,.8); }
+.ef .btn-hong { background: var(--hong); color: #FFF6EC; box-shadow: 0 10px 22px -12px rgba(130,48,28,.7); }
 .ef .btn-hong:hover:not(:disabled) { background: var(--hong2); }
 .ef .btn-ghost { background: var(--paper2); color: var(--ink); }
 .ef .btn-line { border: 1.5px solid var(--line) !important; background: var(--card); color: var(--ink); }

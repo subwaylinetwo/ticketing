@@ -26,7 +26,7 @@ function PinGate({ onOk }: { onOk: (p: string) => void }) {
     <main className="ef" style={{ display: 'grid', placeItems: 'center', padding: 24 }}>
       <div style={{ width: '100%', maxWidth: 340, textAlign: 'center' }}>
         <span className="seal" style={{ width: 64, height: 64, fontSize: 22, transform: 'rotate(-4deg)' }}>직원</span>
-        <h1 className="serif" style={{ fontSize: 28, margin: '16px 0 4px' }}>어흐동 운영석</h1>
+        <h1 className="serif" style={{ fontSize: 28, margin: '16px 0 4px' }}>어흐~동 운영석</h1>
         <p className="sub" style={{ margin: '0 0 20px' }}>직원 번호 6자리를 넣어 주세요.</p>
         <input className="field tnum" inputMode="numeric" autoFocus value={v} maxLength={6}
           onChange={(e) => setV(e.target.value.replace(/\D/g, ''))} onKeyDown={(e) => e.key === 'Enter' && v.length === 6 && go()}
@@ -189,7 +189,7 @@ function Kitchen({ b, pin, act }: { b: Board; pin: string; act: Act }) {
     <div style={{ padding: '6px 16px 0' }}>
       <div className="card" style={{ padding: '12px 16px', display: 'flex', gap: 18, flexWrap: 'wrap', alignItems: 'center', marginBottom: 14 }}>
         <span className="sub" style={{ fontWeight: 600 }}>지금 만들 것</span>
-        <Big n={mild} label="어흐맛" /><Big n={spicy} label="어흐어흐맛" hong /><Big n={odeng} label="어묵 꼬치" />
+        <Big n={mild} label="일반맛" /><Big n={spicy} label="매운맛" hong /><Big n={odeng} label="어묵 꼬치" />
       </div>
 
       {!b.paid.length && <Empty>만들 주문이 없어요. 쉬어 가요.</Empty>}
@@ -234,7 +234,7 @@ function KitchenCard({ o, onDone }: { o: StaffOrder; onDone: () => void }) {
             <span className="tnum" style={{ minWidth: 34, color: 'var(--hong)' }}>{l.qty}×</span>
             <span>{l.id === 'udon' ? '우동' : l.name}</span>
             {l.taste && <span className="pill" style={{ height: 26, fontSize: 13, background: l.taste === 'spicy' ? 'var(--hong)' : 'var(--paper2)', color: l.taste === 'spicy' ? '#FFF6EC' : 'var(--ink)' }}>
-              {l.taste === 'spicy' ? '매운 🌶' : '순한'}</span>}
+              {l.taste === 'spicy' ? '매운맛 🌶' : '일반맛'}</span>}
           </li>
         ))}
       </ul>
@@ -251,7 +251,7 @@ function Settings({ b, pin, act, onLogout }: { b: Board; pin: string; act: Act; 
         <H>오늘 성적</H>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
           <Tile k="매출" v={won(s.revenue)} wide />
-          <Tile k="우동" v={`${s.bowls}그릇`} sub={`순한 ${s.mild} · 매운 ${s.spicy}`} />
+          <Tile k="우동" v={`${s.bowls}그릇`} sub={`일반 ${s.mild} · 매운 ${s.spicy}`} />
           <Tile k="어묵" v={`${s.odeng}개`} sub={`주문 ${s.orders}건`} />
         </div>
       </section>

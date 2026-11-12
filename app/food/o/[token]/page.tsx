@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { BOOTH } from '@/lib/config';
 import { copy, food, lineName, store, won, type Order } from '@/lib/food';
+import { Corners } from '../../ornaments';
 
 export default function OrderPage() {
   const { token } = useParams<{ token: string }>();
@@ -31,7 +32,7 @@ export default function OrderPage() {
       try { navigator.vibrate?.(150); } catch { /* 무시 */ }
     }
     prev.current = o.status;
-    document.title = o.status === 'ready' ? `🔔 ${o.call_no}번 나왔어요 · 어흐동` : o.status === 'paid' ? `${o.call_no}번 조리 중 · 어흐동` : '어흐동 주문서';
+    document.title = o.status === 'ready' ? `🔔 ${o.call_no}번 나왔어요 · 어흐~동` : o.status === 'paid' ? `${o.call_no}번 조리 중 · 어흐~동` : '어흐~동 주문서';
   }, [o]);
 
   useEffect(() => { if (!toast) return; const t = setTimeout(() => setToast(''), 2000); return () => clearTimeout(t); }, [toast]);
@@ -39,7 +40,7 @@ export default function OrderPage() {
   if (o === undefined) return <main className="ef" style={{ display: 'grid', placeItems: 'center' }}><p className="sub">주문서 불러오는 중…</p></main>;
   if (o === null) return (
     <main className="ef" style={{ padding: 24, display: 'grid', placeItems: 'center', textAlign: 'center' }}>
-      <div><p className="serif" style={{ fontSize: 24 }}>주문서를 찾을 수 없어요</p><a className="btn btn-hong" href="/food" style={{ textDecoration: 'none', marginTop: 16 }}>음식발기로</a></div>
+      <div><p className="serif" style={{ fontSize: 24 }}>주문서를 찾을 수 없어요</p><a className="btn btn-hong" href="/food" style={{ textDecoration: 'none', marginTop: 16 }}>메뉴판으로</a></div>
     </main>
   );
 
@@ -48,9 +49,10 @@ export default function OrderPage() {
   return (
     <main className="ef" style={{ paddingBottom: 40 }}>
       {toast && <div className="toast" role="status">{toast}</div>}
-      <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 16px 0' }}>
-        <a href="/food" style={{ textDecoration: 'none', fontSize: 15, fontWeight: 600, color: 'var(--ink2)' }}>← 음식발기</a>
-        <span className="serif" style={{ fontSize: 18, color: 'var(--hong)' }}>어흐동 주문서</span>
+      <Corners size={48} />
+      <nav style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 30px 0 34px' }}>
+        <a href="/food" style={{ textDecoration: 'none', fontSize: 15, fontWeight: 600, color: 'var(--ink2)' }}>← 메뉴판</a>
+        <span className="serif" style={{ fontSize: 20, color: 'var(--hong)' }}>어흐~동 주문서</span>
         <span style={{ width: 70 }} />
       </nav>
       {o.status === 'pending' && <Pending o={o} onToast={setToast} reload={load} />}
@@ -91,7 +93,7 @@ function Pending({ o, onToast, reload }: { o: Order; onToast: (s: string) => voi
   const acct = BOOTH.account.replace(/[^\d-]/g, '');
   return (
     <section style={{ padding: '18px 16px 0' }} className="rise">
-      <h1 className="serif" style={{ fontSize: 28, margin: '0 0 4px', lineHeight: 1.25 }}>입금하면<br />바로 끓여요</h1>
+      <h1 className="serif" style={{ fontSize: 34, margin: '0 0 4px', lineHeight: 1.2, color: 'var(--hong)' }}>입금하면<br />바로 끓여요</h1>
       <p className="sub" style={{ margin: '0 0 16px', fontSize: 15 }}>보내는 순간 이 화면이 자동으로 넘어가요.</p>
 
       <div className="card" style={{ overflow: 'hidden' }}>
@@ -176,7 +178,7 @@ function Cooking({ o }: { o: Order }) {
 function Ready({ o }: { o: Order }) {
   return (
     <main className="ef" style={{ background: 'var(--hong)', color: '#FFF6EC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: 24 }}>
-      <p style={{ margin: 0, fontSize: 18, fontWeight: 700, opacity: .85 }}>어흐어흐, 나왔소!</p>
+      <p style={{ margin: 0, fontSize: 18, fontWeight: 700, opacity: .85 }}>어흐어~흐, 나왔소!</p>
       <div className="tnum serif stamp" style={{ fontSize: 150, lineHeight: 1, margin: '14px 0 4px', width: 240, height: 240, borderRadius: 120, display: 'grid', placeItems: 'center', border: '4px solid rgba(255,246,236,.6)', animation: 'efStamp .5s cubic-bezier(.2,1.4,.4,1) both, efPulse 1.6s ease-in-out .5s infinite' }}>{o.call_no}</div>
       <h1 className="serif" style={{ fontSize: 34, margin: '18px 0 8px' }}>받으러 오세요</h1>
       <p style={{ margin: 0, fontSize: 16, opacity: .85 }}>카운터에서 이 화면을 보여주세요.</p>
@@ -193,7 +195,7 @@ function Done() {
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/food/char.jpg" alt="" width={150} height={225} style={{ mixBlendMode: 'multiply', display: 'block', margin: '0 auto', objectFit: 'contain' }} />
       <h1 className="serif" style={{ fontSize: 30, margin: '10px 0 6px' }}>맛있게 드세요, 어흐어흐</h1>
-      <p className="sub" style={{ margin: 0 }}>리뷰 올리고 카운터에 보여주면 <b style={{ color: 'var(--hong)' }}>어묵 하나 더</b>.</p>
+      <p className="sub" style={{ margin: 0, lineHeight: 1.5 }}><b style={{ color: 'var(--hong)' }}>@uh_heu_dong</b> 태그하고 스토리에 인증샷 올리면<br />다음엔 <b style={{ color: 'var(--hong)' }}>어흐묵 우동</b>으로 바꿔드려요~</p>
       <a className="btn btn-hong" href="/food" style={{ textDecoration: 'none', marginTop: 20 }}>한 그릇 더 시키기</a>
     </section>
   );
