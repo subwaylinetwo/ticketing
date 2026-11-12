@@ -3,7 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { BOOTH } from '@/lib/config';
 import { copy, food, lineName, store, won, type Order } from '@/lib/food';
-import { Corners } from '../../ornaments';
+import { AppBar, Steps } from '../../ui';
 
 export default function OrderPage() {
   const { token } = useParams<{ token: string }>();
@@ -40,21 +40,17 @@ export default function OrderPage() {
   if (o === undefined) return <main className="ef" style={{ display: 'grid', placeItems: 'center' }}><p className="sub">주문서 불러오는 중…</p></main>;
   if (o === null) return (
     <main className="ef" style={{ padding: 24, display: 'grid', placeItems: 'center', textAlign: 'center' }}>
-      <div><p className="serif" style={{ fontSize: 24 }}>주문서를 찾을 수 없어요</p><a className="btn btn-hong" href="/food" style={{ textDecoration: 'none', marginTop: 16 }}>메뉴판으로</a></div>
+      <div><p className="serif" style={{ fontSize: 24 }}>주문서를 찾을 수 없어요</p><a className="btn btn-hong" href="/food" style={{ textDecoration: 'none', marginTop: 16 }}>처음으로</a></div>
     </main>
   );
 
   if (o.status === 'ready') return <Ready o={o} />;
 
   return (
-    <main className="ef" style={{ paddingBottom: 40 }}>
+    <main className="ef page" style={{ paddingBottom: 40 }}>
       {toast && <div className="toast" role="status">{toast}</div>}
-      <Corners size={48} />
-      <nav style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '24px 30px 0 34px' }}>
-        <a href="/food" style={{ textDecoration: 'none', fontSize: 15, fontWeight: 600, color: 'var(--ink2)' }}>← 메뉴판</a>
-        <span className="serif" style={{ fontSize: 20, color: 'var(--hong)' }}>어흐~동 주문서</span>
-        <span style={{ width: 70 }} />
-      </nav>
+      <AppBar title="주문서" back="/food" />
+      {o.status !== 'cancelled' && <div style={{ padding: '6px 0 0' }}><Steps at={o.status === 'pending' ? 1 : o.status === 'paid' ? 2 : 3} /></div>}
       {o.status === 'pending' && <Pending o={o} onToast={setToast} reload={load} />}
       {o.status === 'paid' && <Cooking o={o} />}
       {o.status === 'done' && <Done />}
@@ -196,7 +192,7 @@ function Done() {
       <img src="/food/char.jpg" alt="" width={150} height={225} style={{ mixBlendMode: 'multiply', display: 'block', margin: '0 auto', objectFit: 'contain' }} />
       <h1 className="serif" style={{ fontSize: 30, margin: '10px 0 6px' }}>맛있게 드세요, 어흐어흐</h1>
       <p className="sub" style={{ margin: 0, lineHeight: 1.5 }}><b style={{ color: 'var(--hong)' }}>@uh_heu_dong</b> 태그하고 스토리에 인증샷 올리면<br />다음엔 <b style={{ color: 'var(--hong)' }}>어흐묵 우동</b>으로 바꿔드려요~</p>
-      <a className="btn btn-hong" href="/food" style={{ textDecoration: 'none', marginTop: 20 }}>한 그릇 더 시키기</a>
+      <a className="btn btn-hong" href="/food/menu" style={{ textDecoration: 'none', marginTop: 20 }}>한 그릇 더 시키기</a>
     </section>
   );
 }
@@ -207,7 +203,7 @@ function Cancelled() {
       <span className="seal" style={{ fontSize: 22, padding: '8px 16px', transform: 'rotate(-4deg)' }}>취소됨</span>
       <h1 className="serif" style={{ fontSize: 26, margin: '18px 0 6px' }}>이 주문은 취소됐어요</h1>
       <p className="sub" style={{ margin: 0, lineHeight: 1.5 }}>30분 안에 입금이 확인되지 않으면 자동으로 취소돼요.<br /><b style={{ color: 'var(--ink)' }}>이미 보냈다면 카운터에 말해 주세요.</b></p>
-      <a className="btn btn-hong" href="/food" style={{ textDecoration: 'none', marginTop: 20 }}>다시 주문하기</a>
+      <a className="btn btn-hong" href="/food/menu" style={{ textDecoration: 'none', marginTop: 20 }}>다시 주문하기</a>
     </section>
   );
 }

@@ -20,7 +20,7 @@ export const TASTE: Record<Taste, { name: string; sub: string; short: string }> 
 };
 export const INSTA = 'uh_heu_dong';
 export const won = (n: number) => `${n.toLocaleString('ko-KR')}원`;
-export const lineName = (l: Pick<Line, 'name' | 'taste'>) => l.taste ? `${TASTE[l.taste].name} (${TASTE[l.taste].sub})` : l.name.replace('어묵', '꼬치어묵');
+export const lineName = (l: Pick<Line, 'name' | 'taste'>) => l.taste ? `${TASTE[l.taste].name} (${TASTE[l.taste].sub})` : l.name;
 
 const MESSAGES: Record<string, string> = {
   closed: '지금은 주문을 받지 않아요. 부스에 물어봐 주세요.',
