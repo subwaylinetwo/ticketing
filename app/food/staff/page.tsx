@@ -130,7 +130,7 @@ function Counter({ b, pin, act }: { b: Board; pin: string; act: Act }) {
         <div style={{ display: 'grid', gap: 10, gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))' }}>
           {b.pending.map((o) => (
             <div key={o.id} className="card" style={{ padding: 14, display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '4px 14px', alignItems: 'center' }}>
-              <div className="serif tnum" style={{ fontSize: 34, color: 'var(--hong)', letterSpacing: '.06em', gridRow: 'span 2' }}>{o.tag}</div>
+              <div className="tnum num" style={{ fontSize: 32, color: 'var(--hong)', letterSpacing: '.04em', gridRow: 'span 2' }}>{o.tag}</div>
               <div style={{ display: 'flex', justifyContent: 'space-between', gap: 8 }}>
                 <b className="tnum" style={{ fontSize: 19 }}>{won(o.amount ?? 0)}</b>
                 <span className="faint tnum" style={{ fontSize: 13 }}>{minsAgo(o.created_at)}분 전</span>
@@ -306,7 +306,7 @@ function Tile({ k, v, sub, wide }: { k: string; v: string; sub?: string; wide?: 
   return (
     <div className="card" style={{ padding: 16, gridColumn: wide ? '1 / -1' : undefined }}>
       <div className="sub" style={{ fontSize: 14 }}>{k}</div>
-      <div className="tnum serif" style={{ fontSize: wide ? 38 : 28, color: wide ? 'var(--hong)' : 'var(--ink)', marginTop: 2 }}>{v}</div>
+      <div className="tnum num" style={{ fontSize: wide ? 34 : 26, color: wide ? 'var(--hong)' : 'var(--ink)', marginTop: 2 }}>{v}</div>
       {sub && <div className="faint tnum" style={{ fontSize: 13, marginTop: 2 }}>{sub}</div>}
     </div>
   );

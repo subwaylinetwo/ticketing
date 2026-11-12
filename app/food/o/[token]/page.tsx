@@ -104,7 +104,7 @@ function Pending({ o, onToast, reload }: { o: Order; onToast: (s: string) => voi
         <Perf />
         <div style={{ padding: '14px 18px 18px', textAlign: 'center', background: 'var(--hongSoft)' }}>
           <div style={{ fontSize: 14, fontWeight: 700, color: 'var(--hong)' }}>받는 분 통장 표시 (입금자명)에 이 번호</div>
-          <div className="tnum serif" style={{ fontSize: 64, lineHeight: 1.1, letterSpacing: '.12em', color: 'var(--hong)', margin: '6px 0 10px' }}>{o.tag}</div>
+          <div className="tnum num" style={{ fontSize: 60, lineHeight: 1.1, letterSpacing: '.1em', color: 'var(--hong)', margin: '6px 0 10px' }}>{o.tag}</div>
           <button className="pill btn-hong" style={{ height: 40, padding: '0 20px' }} onClick={() => cp(o.tag, '번호를')}>번호 복사</button>
         </div>
         <Perf />
@@ -179,7 +179,7 @@ function Ready({ o }: { o: Order }) {
   return (
     <main className="ef" style={{ background: 'var(--hong)', color: '#FFF6EC', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: 24 }}>
       <p style={{ margin: 0, fontSize: 18, fontWeight: 700, opacity: .85 }}>어흐어~흐, 나왔소!</p>
-      <div className="tnum serif stamp" style={{ fontSize: 150, lineHeight: 1, margin: '14px 0 4px', width: 240, height: 240, borderRadius: 120, display: 'grid', placeItems: 'center', border: '4px solid rgba(255,246,236,.6)', animation: 'efStamp .5s cubic-bezier(.2,1.4,.4,1) both, efPulse 1.6s ease-in-out .5s infinite' }}>{o.call_no}</div>
+      <div className="tnum num stamp" style={{ fontSize: 130, lineHeight: 1, margin: '14px 0 4px', width: 240, height: 240, borderRadius: 120, display: 'grid', placeItems: 'center', border: '4px solid rgba(255,246,236,.6)', animation: 'efStamp .5s cubic-bezier(.2,1.4,.4,1) both, efPulse 1.6s ease-in-out .5s infinite' }}>{o.call_no}</div>
       <h1 className="serif" style={{ fontSize: 34, margin: '18px 0 8px' }}>받으러 오세요</h1>
       <p style={{ margin: 0, fontSize: 16, opacity: .85 }}>카운터에서 이 화면을 보여주세요.</p>
       <ul style={{ listStyle: 'none', padding: 0, margin: '24px 0 0', fontSize: 15, opacity: .9 }}>
