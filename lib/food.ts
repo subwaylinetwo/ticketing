@@ -12,7 +12,7 @@ export type Order = {
 };
 export type Public = { menu: MenuItem[]; open: boolean; discount_school: string | null; discount_amount: number; waiting: number };
 
-export const SCHOOLS = ['GIST', 'KAIST', 'POSTECH', 'UNIST', 'DGIST'] as const;
+export const SCHOOLS = ['GIST', 'KAIST', 'POSTECH', 'UNIST', 'DGIST', 'KENTECH'] as const;
 // 현수막 메뉴판과 같은 이름
 export const TASTE: Record<Taste, { name: string; sub: string; short: string }> = {
   mild:  { name: '어흐~동',     sub: '일반맛', short: '일반' },
