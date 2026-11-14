@@ -13,6 +13,10 @@ export const PRODUCTS: Product[] = [
     desc: '사누키 우동면에 바삭한 덴카스, 유부, 나루토마키, 대파. 진한 가쓰오 국물.' },
   { key: 'udon:spicy', id: 'udon', taste: 'spicy', name: TASTE.spicy.name, sub: TASTE.spicy.sub, tag: '칼칼',
     desc: '같은 우동에 청양고추와 고춧가루를 더해 칼칼하게. 추운 날 딱.' },
+  { key: 'udon_re:mild',  id: 'udon_re', taste: 'mild',  name: `재방문 ${TASTE.mild.name}`,  sub: TASTE.mild.sub,  tag: '반값',
+    desc: '한 번 더 오신 분께 반값으로. 받을 때 지난 주문 화면을 보여주세요.' },
+  { key: 'udon_re:spicy', id: 'udon_re', taste: 'spicy', name: `재방문 ${TASTE.spicy.name}`, sub: TASTE.spicy.sub, tag: '반값',
+    desc: '한 번 더 오신 분께 반값으로. 받을 때 지난 주문 화면을 보여주세요.' },
   { key: 'odeng1',     id: 'odeng1', taste: null,  name: '꼬치어묵', sub: '1개',
     desc: '국물에 푹 담가 둔 꼬치어묵. 어묵 국물은 공짜로 떠 드려요.' },
 ];
@@ -119,5 +123,5 @@ export function OdengArt({ size = 96 }: { size?: number }) {
 }
 
 export function ProductArt({ p, size }: { p: Pick<Product, 'id' | 'taste'>; size?: number }) {
-  return p.id === 'udon' ? <UdonArt spicy={p.taste === 'spicy'} size={size} /> : <OdengArt size={size} />;
+  return p.id.startsWith('udon') ? <UdonArt spicy={p.taste === 'spicy'} size={size} /> : <OdengArt size={size} />;
 }

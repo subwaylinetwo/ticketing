@@ -28,7 +28,7 @@ export default function MenuPage() {
         </div>
       )}
 
-      {([['우동', '국물까지 어흐어흐', ['udon']], ['사이드', '같이 먹으면 더 어흐', ['odeng1']]] as const).map(([title, sub, ids]) => (
+      {([['우동', '국물까지 어흐어흐', ['udon']], ['재방문 반값', '두 번째 그릇은 3천원', ['udon_re']], ['사이드', '같이 먹으면 더 어흐', ['odeng1']]] as const).map(([title, sub, ids]) => (
         <section key={title} style={{ padding: '20px 16px 0' }}>
           <div className="section-t"><h2 className="serif">{title}</h2><span>{sub}</span></div>
           <div style={{ display: 'grid', gap: 10 }}>
@@ -38,8 +38,8 @@ export default function MenuPage() {
                 <button key={p.key} className="prod" disabled={out || closed} onClick={() => setSel(p)} style={{ opacity: out ? .55 : 1 }}>
                   <span className="art"><ProductArt p={p} size={80} /></span>
                   <span style={{ flex: 1, minWidth: 0 }}>
-                    <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                      <span className="serif" style={{ fontSize: 18 }}>{p.name}</span>
+                    <span style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap' }}>
+                      <span className="serif" style={{ fontSize: 18, wordBreak: 'keep-all' }}>{p.name}</span>
                       {p.tag && <span className="tag">{p.tag}</span>}
                     </span>
                     <span className="sub" style={{ display: 'block', fontSize: 13, lineHeight: 1.45, margin: '3px 0 6px' }}>{p.sub} · {p.desc.split('.')[0]}</span>
@@ -67,14 +67,14 @@ export default function MenuPage() {
       )}
 
       {sel && <OptionSheet p={sel} unit={price(sel.id)} onClose={() => setSel(null)}
-        onAdd={(q) => { cart.add(sel.id, sel.taste, q); setSel(null); show(`${sel.name} ${q}${sel.id === 'udon' ? '그릇' : '개'} 담았어요`); }} />}
+        onAdd={(q) => { cart.add(sel.id, sel.taste, q); setSel(null); show(`${sel.name} ${q}${sel.id.startsWith('udon') ? '그릇' : '개'} 담았어요`); }} />}
     </main>
   );
 }
 
 function OptionSheet({ p, unit, onClose, onAdd }: { p: Product; unit: number; onClose: () => void; onAdd: (q: number) => void }) {
   const [q, setQ] = useState(1);
-  const u = p.id === 'udon' ? '그릇' : '개';
+  const u = p.id.startsWith('udon') ? '그릇' : '개';
   return (
     <>
       <div className="ef-sheet-bg" onClick={onClose} />

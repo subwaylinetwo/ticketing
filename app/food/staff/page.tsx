@@ -232,7 +232,7 @@ function KitchenCard({ o, onDone }: { o: StaffOrder; onDone: () => void }) {
         {o.items.map((l, i) => (
           <li key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 19, fontWeight: 700 }}>
             <span className="tnum" style={{ minWidth: 34, color: 'var(--hong)' }}>{l.qty}×</span>
-            <span>{l.id === 'udon' ? '우동' : l.name}</span>
+            <span>{l.id === 'udon' ? '우동' : l.id === 'udon_re' ? '재방문 우동' : l.name}</span>
             {l.taste && <span className="pill" style={{ height: 26, fontSize: 13, background: l.taste === 'spicy' ? 'var(--hong)' : 'var(--paper2)', color: l.taste === 'spicy' ? '#FFF6EC' : 'var(--ink)' }}>
               {l.taste === 'spicy' ? '매운맛 🌶' : '일반맛'}</span>}
           </li>
